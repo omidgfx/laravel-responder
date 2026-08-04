@@ -4,6 +4,7 @@ namespace Flugg\Responder;
 
 use Flugg\Responder\Contracts\TransformFactory;
 use League\Fractal\Manager;
+use League\Fractal\Resource\NullResource;
 use League\Fractal\Resource\ResourceInterface;
 use League\Fractal\Serializer\SerializerAbstract;
 use LogicException;
@@ -69,7 +70,7 @@ class FractalTransformFactory implements TransformFactory
             'fieldsets' => [],
         ], $options);
 
-        if (! empty($options['fieldsets'])) {
+        if (! empty($options['fieldsets']) && ! $resource instanceof NullResource) {
             if (empty($resourceKey = $resource->getResourceKey())) {
                 throw new LogicException('Filtering fields using sparse fieldsets require resource key to be set.');
             }
